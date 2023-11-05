@@ -60,10 +60,13 @@ if __name__ == '__main__':
         while pid is None:
             pids = psutil.pids()
             for i in pids:
-                p = psutil.Process(i)
-                if p.name() == name:
-                    pid = i
-                    break
+                try:
+                    p = psutil.Process(i)
+                    if p.name() == name:
+                        pid = i
+                        break
+                except psutil.NoSuchProcess as e:
+                    pass
 
     if filepath is None and pid is None and name is None:
         filepath = input('File path: ')
